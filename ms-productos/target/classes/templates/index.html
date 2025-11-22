@@ -12,7 +12,7 @@
         <h1 class="mb-4">Listado de Productos</h1>
 
         <div class="mb-3">
-            <a th:href="@{/nuevo}" class="btn btn-primary">Agregar Nuevo</a>
+            <a th:href="@{/productos/nuevo}" class="btn btn-primary">Agregar Nuevo</a>
         </div>
 
         <div th:if="${productos.empty}" class="alert alert-info">
@@ -36,8 +36,9 @@
                     <td th:text="${producto.precio}">1500.00</td>
                     <td th:text="${producto.stock}">10</td>
                     <td>
-                        <a th:href="@{/editar/{id}(id=${producto.id})}" class="btn btn-primary btn-sm">Editar</a>
-                        <a th:href="@{/eliminar/{id}(id=${producto.id})}" class="btn btn-danger btn-sm"
+                        <a th:href="@{/productos/editar/{id}(id=${producto.id})}"
+                            class="btn btn-primary btn-sm">Editar</a>
+                        <a th:href="@{/productos/eliminar/{id}(id=${producto.id})}" class="btn btn-danger btn-sm"
                             onclick="return confirm('¿Estás seguro de eliminar este registro?')">Eliminar</a>
                     </td>
                 </tr>
@@ -47,14 +48,14 @@
         <nav th:if="${totalPages > 1}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/(page=${currentPage - 1})}">Anterior</a>
+                    <a class="page-link" th:href="@{/productos(page=${currentPage - 1})}">Anterior</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                     th:classappend="${currentPage == i} ? 'active'">
-                    <a class="page-link" th:href="@{/(page=${i})}" th:text="${i + 1}">1</a>
+                    <a class="page-link" th:href="@{/productos(page=${i})}" th:text="${i + 1}">1</a>
                 </li>
                 <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/(page=${currentPage + 1})}">Siguiente</a>
+                    <a class="page-link" th:href="@{/productos(page=${currentPage + 1})}">Siguiente</a>
                 </li>
             </ul>
         </nav>

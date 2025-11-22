@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/proveedores")
 public class ProveedorController {
 
     @Autowired

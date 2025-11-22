@@ -1,3 +1,4 @@
+com\example\msproductos\controller\HomeController.class
 com\example\msproductos\controller\ProductoController.class
 com\example\msproductos\repository\ProductoRepository.class
 com\example\msproductos\service\ProductoService.class
