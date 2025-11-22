@@ -14,8 +14,8 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public List<Cliente> findAll() {
-        return clienteRepository.findAll();
+    public org.springframework.data.domain.Page<Cliente> findAll(org.springframework.data.domain.Pageable pageable) {
+        return clienteRepository.findAll(pageable);
     }
 
     public Optional<Cliente> findById(Long id) {

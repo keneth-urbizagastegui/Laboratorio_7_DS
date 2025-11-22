@@ -1,26 +1,44 @@
-# Laboratorio 07 - Despliegue de Microservicios con Docker
+# Laboratorio 07 - Sistema de Microservicios con Docker
 
-## Integrante
-* **Nombre:** Keneth
-* **Curso:** Diseño de Software
+## Información del Curso
+- **Curso:** Diseño de Software
+- **Estudiante:** Keneth
+- **Semestre:** 2025-2
 
-## Descripción
-Sistema de microservicios desarrollado en Java Spring Boot, orquestado con Docker Compose. Incluye 3 servicios independientes, base de datos PostgreSQL y un balanceador de carga Nginx.
+## Descripción del Proyecto
+Este proyecto implementa un sistema distribuido compuesto por **3 microservicios backend** desarrollados en **Java Spring Boot 3** con **JPA**. El sistema utiliza una base de datos centralizada **PostgreSQL** y un Frontend renderizado en el servidor utilizando **Thymeleaf** y **Bootstrap 5** para la interfaz de usuario. Todo el tráfico es orquestado y distribuido por un **API Gateway** implementado con **Nginx**.
 
-## Arquitectura
-* **Balanceador (Nginx):** Puerto 7000
-* **Ms-Clientes:** Puerto interno 5001
-* **Ms-Productos:** Puerto interno 6001
-* **Ms-Proveedores:** Puerto interno 7001
-* **Base de Datos:** PostgreSQL (Puerto 5432)
+## Arquitectura del Sistema
 
-## Pre-requisitos
-* Docker y Docker Desktop instalados.
+| Servicio | Tecnología | Puerto Interno | Puerto Host (Acceso) | URL |
+| :--- | :--- | :--- | :--- | :--- |
+| **Nginx Load Balancer** | Nginx | 80 | **7000** | [http://localhost:7000](http://localhost:7000) |
+| **Microservicio Clientes** | Spring Boot | 5001 | - | - |
+| **Microservicio Productos** | Spring Boot | 6001 | - | - |
+| **Microservicio Proveedores** | Spring Boot | 7001 | - | - |
+| **Base de Datos** | PostgreSQL | 5432 | 5432 | - |
 
-## Instrucciones de Ejecución
-1. Clonar el repositorio o descargar la carpeta.
-2. Abrir una terminal en la raíz del proyecto.
-3. Ejecutar el comando de construcción y despliegue:
-   ```bash
-   docker-compose up --build
-   ```
+## Instrucciones de Uso
+
+### Despliegue
+Para iniciar todo el sistema, ejecuta el siguiente comando en la raíz del proyecto:
+
+```bash
+docker-compose up --build
+```
+
+### Acceso a los Módulos
+Una vez iniciado el sistema, puedes acceder a los diferentes módulos a través del API Gateway (Puerto 7000):
+
+- **Clientes:** [http://localhost:7000/clientes](http://localhost:7000/clientes)
+- **Productos:** [http://localhost:7000/productos](http://localhost:7000/productos)
+- **Proveedores:** [http://localhost:7000/proveedores](http://localhost:7000/proveedores)
+
+## ⚠️ Reinicio Limpio (Importante)
+Si observas datos duplicados o inconsistencias en la base de datos, es recomendable realizar un reinicio limpio borrando los volúmenes persistentes. Ejecuta:
+
+```bash
+docker-compose down -v
+```
+
+Luego, vuelve a levantar el sistema con el comando de despliegue.

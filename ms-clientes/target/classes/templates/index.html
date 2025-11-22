@@ -1,37 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Listado de Clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container mt-5">
-    <h1 class="mb-4">Listado de Clientes</h1>
-    
-    <div th:if="${clientes.empty}" class="alert alert-info">
-        No hay clientes registrados.
-    </div>
 
-    <table th:if="${!clientes.empty}" class="table table-striped table-hover table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Ciudad</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="cliente : ${clientes}">
-                <td th:text="${cliente.id}">1</td>
-                <td th:text="${cliente.nombre}">Juan Perez</td>
-                <td th:text="${cliente.email}">juan@example.com</td>
-                <td th:text="${cliente.ciudad}">Lima</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Listado de Clientes</h1>
+
+        <div class="mb-3">
+            <a th:href="@{/clientes/nuevo}" class="btn btn-primary">Agregar Nuevo</a>
+        </div>
+
+        <div th:if="${clientes.empty}" class="alert alert-info">
+            No hay clientes registrados.
+        </div>
+
+        <table th:if="${!clientes.empty}" class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Ciudad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente : ${clientes.content}">
+                    <td th:text="${cliente.id}">1</td>
+                    <td th:text="${cliente.nombre}">Juan Perez</td>
+                    <td th:text="${cliente.email}">juan@example.com</td>
+                    <td th:text="${cliente.ciudad}">Lima</td>
+                    <td>
+                        <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}"
+                            class="btn btn-primary btn-sm">Editar</a>
+                        <a th:href="@{/clientes/eliminar/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de eliminar este registro?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav th:if="${totalPages > 1}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/clientes(page=${currentPage - 1})}">Anterior</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${currentPage == i} ? 'active'">
+                    <a class="page-link" th:href="@{/clientes(page=${i})}" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/clientes(page=${currentPage + 1})}">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

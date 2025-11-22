@@ -14,8 +14,8 @@ public class ProveedorService {
     @Autowired
     private ProveedorRepository proveedorRepository;
 
-    public List<Proveedor> findAll() {
-        return proveedorRepository.findAll();
+    public org.springframework.data.domain.Page<Proveedor> findAll(org.springframework.data.domain.Pageable pageable) {
+        return proveedorRepository.findAll(pageable);
     }
 
     public Optional<Proveedor> findById(Long id) {

@@ -14,8 +14,8 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    public List<Producto> findAll() {
-        return productoRepository.findAll();
+    public org.springframework.data.domain.Page<Producto> findAll(org.springframework.data.domain.Pageable pageable) {
+        return productoRepository.findAll(pageable);
     }
 
     public Optional<Producto> findById(Long id) {

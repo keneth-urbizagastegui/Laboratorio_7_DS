@@ -3,12 +3,13 @@ package com.example.msclientes.controller;
 import com.example.msclientes.entity.Cliente;
 import com.example.msclientes.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/clientes")
@@ -18,46 +19,39 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public String getAll(Model model) {
-        List<Cliente> clientes = clienteService.findAll();
+    public String getAll(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<Cliente> clientes = clienteService.findAll(PageRequest.of(page, 10));
         model.addAttribute("clientes", clientes);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", clientes.getTotalPages());
         return "index";
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Cliente> getById(@PathVariable Long id) {
-        return clienteService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/nuevo")
+    public String createForm(Model model) {
+        model.addAttribute("cliente", new Cliente());
+        return "form";
     }
 
-    @PostMapping
-    @ResponseBody
-    public Cliente create(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
+    @PostMapping("/guardar")
+    public String save(@ModelAttribute Cliente cliente) {
+        clienteService.save(cliente);
+        return "redirect:/clientes";
     }
 
-    @PutMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody Cliente cliente) {
-        return clienteService.findById(id)
-                .map(existing -> {
-                    existing.setNombre(cliente.getNombre());
-                    existing.setEmail(cliente.getEmail());
-                    existing.setCiudad(cliente.getCiudad());
-                    return ResponseEntity.ok(clienteService.save(existing));
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (clienteService.findById(id).isPresent()) {
-            clienteService.deleteById(id);
-            return ResponseEntity.ok().build();
+    @GetMapping("/editar/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        Optional<Cliente> cliente = clienteService.findById(id);
+        if (cliente.isPresent()) {
+            model.addAttribute("cliente", cliente.get());
+            return "form";
         }
-        return ResponseEntity.notFound().build();
+        return "redirect:/clientes";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String delete(@PathVariable Long id) {
+        clienteService.deleteById(id);
+        return "redirect:/clientes";
     }
 }
