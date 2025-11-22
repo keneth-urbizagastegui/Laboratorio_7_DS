@@ -1,0 +1,5 @@
+com\example\msclientes\MsClientesApplication.class
+com\example\msclientes\repository\ClienteRepository.class
+com\example\msclientes\entity\Cliente.class
+com\example\msclientes\controller\ClienteController.class
+com\example\msclientes\service\ClienteService.class

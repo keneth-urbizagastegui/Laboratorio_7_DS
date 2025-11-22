@@ -1,0 +1,5 @@
+com\example\msproveedores\MsProveedoresApplication.class
+com\example\msproveedores\service\ProveedorService.class
+com\example\msproveedores\entity\Proveedor.class
+com\example\msproveedores\repository\ProveedorRepository.class
+com\example\msproveedores\controller\ProveedorController.class

@@ -1,0 +1,5 @@
+com\example\msproductos\controller\ProductoController.class
+com\example\msproductos\repository\ProductoRepository.class
+com\example\msproductos\service\ProductoService.class
+com\example\msproductos\entity\Producto.class
+com\example\msproductos\MsProductosApplication.class

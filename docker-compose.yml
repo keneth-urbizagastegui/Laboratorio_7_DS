@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - microservices-net
+
+  ms-clientes:
+    build: ./ms-clientes
+    container_name: ms-clientes
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres-db
+    networks:
+      - microservices-net
+
+  ms-productos:
+    build: ./ms-productos
+    container_name: ms-productos
+    ports:
+      - "6001:6001"
+    depends_on:
+      - postgres-db
+    networks:
+      - microservices-net
+
+  ms-proveedores:
+    build: ./ms-proveedores
+    container_name: ms-proveedores
+    ports:
+      - "7001:7001"
+    depends_on:
+      - postgres-db
+    networks:
+      - microservices-net
+
+  nginx-loadbalancer:
+    build: ./nginx-loadbalancer
+    container_name: nginx-loadbalancer
+    ports:
+      - "7000:80"
+    depends_on:
+      - ms-clientes
+      - ms-productos
+      - ms-proveedores
+    networks:
+      - microservices-net
+
+networks:
+  microservices-net:
+    driver: bridge
