@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/proveedores")
+@RequestMapping("/")
 public class ProveedorController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class ProveedorController {
     @PostMapping("/guardar")
     public String save(@ModelAttribute Proveedor proveedor) {
         proveedorService.save(proveedor);
-        return "redirect:/proveedores";
+        return "redirect:/";
     }
 
     @GetMapping("/editar/{id}")
@@ -46,12 +46,12 @@ public class ProveedorController {
             model.addAttribute("proveedor", proveedor.get());
             return "form";
         }
-        return "redirect:/proveedores";
+        return "redirect:/";
     }
 
     @GetMapping("/eliminar/{id}")
     public String delete(@PathVariable Long id) {
         proveedorService.deleteById(id);
-        return "redirect:/proveedores";
+        return "redirect:/";
     }
 }

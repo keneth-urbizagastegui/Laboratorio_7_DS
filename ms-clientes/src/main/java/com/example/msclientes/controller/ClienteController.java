@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/clientes")
+@RequestMapping("/")
 public class ClienteController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class ClienteController {
     @PostMapping("/guardar")
     public String save(@ModelAttribute Cliente cliente) {
         clienteService.save(cliente);
-        return "redirect:/clientes";
+        return "redirect:/";
     }
 
     @GetMapping("/editar/{id}")
@@ -46,12 +46,12 @@ public class ClienteController {
             model.addAttribute("cliente", cliente.get());
             return "form";
         }
-        return "redirect:/clientes";
+        return "redirect:/";
     }
 
     @GetMapping("/eliminar/{id}")
     public String delete(@PathVariable Long id) {
         clienteService.deleteById(id);
-        return "redirect:/clientes";
+        return "redirect:/";
     }
 }
